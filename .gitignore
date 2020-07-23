@@ -1,0 +1,5 @@
+dist/
+out/
+build/
+/igeLibs
+/igefirebase.cp37-win32.pyd
