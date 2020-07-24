@@ -108,7 +108,11 @@ elseif(ANDROID)
     )
     set(SRC ${SRC} ${EXTRA_SOURCES})
 elseif(MSVC)
-    set(INCLUDES ${INCLUDES} "win32")
+    set(INCLUDES 
+        ${INCLUDES}
+        "win32"
+        "${IGE_LIBS}/pyxCore/include/ThirdParty/GLEW"
+    )
     file(GLOB EXTRA_SOURCES
         "${CMAKE_CURRENT_SOURCE_DIR}/win32/*.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/win32/*.cpp"

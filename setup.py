@@ -31,64 +31,33 @@ if not path.exists(igeLibsPath):
     print("ERROR: IGE_LIBS was not set!")
     exit(0)
 
-firebase_sdk = path.join(igeLibsPath, 'firebase_cpp_sdk')
-inc_dir = firebase_sdk + '/include'
-lib_dir = firebase_sdk + '/libs/windows/VS2015/MD'
 json_inc_dir = path.join(igeLibsPath, 'json/include/json')
-taskflow_inc_dir = path.join(igeLibsPath, 'cpp-taskflow/include')
+stb_inc_dir = path.join(igeLibsPath, 'stb/include')
+core_inc_dir = path.join(igeLibsPath, 'pyxCore/include/ThirdParty/GLEW')
 
 is64Bit = sys.maxsize > 2 ** 32
+pyxcore_lib =  path.join(igeLibsPath, 'pyxCore/libs/pc')
 if is64Bit:
-    lib_dir = lib_dir + '/x64/Release'
+    pyxcore_lib = pyxcore_lib + '/x64'
 else:
-    lib_dir = lib_dir + '/x86/Release'
+    pyxcore_lib = pyxcore_lib + '/x86'
+    
 
-sfc_module = Extension('igeFirebase',
+
+sfc_module = Extension('igeAutoTest',
                     sources=[
-                        'igeFirebase.cpp',
-                        'igeFirebaseAnalytics.cpp',
-                        'igeFirebaseAuth.cpp',
-                        'igeFirebaseMessaging.cpp',
-                        'igeFirebaseRemoteConfig.cpp',
-                        'igeFirebaseMLKit.cpp',
-                        'igeFirebaseFirestore.cpp',
-                        'Firebase.cpp',
-                        'FirebaseAnalytics.cpp',
-                        'FirebaseAuth.cpp',
-                        'FirebaseMessaging.cpp',
-                        'FirebaseRemoteConfig.cpp',
-                        'FirebaseMLKit.cpp',
-                        'FirebaseFirestore.cpp',
-                        'dispatch_queue.cpp',
-                        'win32/FirebaseImpl.cpp',
-                        'win32/FirebaseMLKitImpl.cpp',
+                        'igeAutoTest.cpp',
+                        'AutoTest.cpp',
+                        'win32/AutoTestImpl.cpp',
                     ],
-                    include_dirs=[inc_dir, json_inc_dir, taskflow_inc_dir, './', './win32'],
-                    library_dirs=[lib_dir],
-                    libraries=['firebase_app',
-                        'firebase_remote_config',
-                        'firebase_analytics',
-                        'firebase_auth',
-                        'firebase_messaging',
-                        'firebase_app',
-                        'advapi32',
-                        'ws2_32',
-                        'crypt32',
-                        'rpcrt4',
-                        'ole32',
-                        'kernel32',
-                        'user32',
-                        'gdi32',
-                        'winspool',
-                        'shell32',
-                        'oleaut32',
-                        'uuid',
-                        'comdlg32'
-                    ],
+                    include_dirs=[core_inc_dir, json_inc_dir, stb_inc_dir, './', './win32'],
+                    library_dirs=[pyxcore_lib],
+                    libraries=['opengl32'],
+                    define_macros=[('BUILD_EXTENSION', '1')],
                     extra_compile_args=['/std:c++17'])
 
-setup(name='igeFirebase', version='0.0.20',
-        description= 'C++ extension Firebase for 3D and 2D games.',
+setup(name='igeAutoTest', version='0.0.1',
+        description= 'C++ extension auto tesing for 3D and 2D games.',
         author=u'Indigames',
         author_email='dev@indigames.net',
         packages=find_packages(),
@@ -110,5 +79,5 @@ setup(name='igeFirebase', version='0.0.20',
             'Topic :: Games/Entertainment',
         ],
         # What does your project relate to?
-        keywords='Firebase 3D game Indigames',
+        keywords='Auto Testing Testlab 3D game Indigames',
       )
