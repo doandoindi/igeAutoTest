@@ -1,6 +1,6 @@
 @echo off
 
-SET LIB_NAME=igeFirebase
+SET LIB_NAME=igeAutoTest
 
 SET BUILD_DEBUG=0
 SET BUILD_X86=0

@@ -1,6 +1,6 @@
 #!/bin/bash 
 
-export LIB_NAME=igeFirebase
+export LIB_NAME=igeAutoTest
 
 export CURR_DIR=$PWD
 

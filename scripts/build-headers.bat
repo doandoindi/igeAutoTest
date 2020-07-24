@@ -1,6 +1,6 @@
 @echo off
 
-SET LIB_NAME=igeFirebase
+SET LIB_NAME=igeAutoTest
 
 SET CALL_DIR=%CD%
 SET PROJECT_DIR=%~dp0..
