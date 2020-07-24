@@ -21,6 +21,7 @@ public:
     void adjustInfo();
     void gameAnalyticsInfo();
     void applovinInfo();
+    bool isLoopTest();
 	
 	AutoTestImpl* GetImpl() { return m_autoTestImpl; }
     

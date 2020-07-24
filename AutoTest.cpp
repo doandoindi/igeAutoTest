@@ -2,9 +2,12 @@
 #include "AutoTestImpl.h"
 #include <fstream>
 #include "Adj.h"
+#include "SDL.h"
 #include "GAnalytics.h"
 #include "AdsApplovin.h"
 #include "pyxieTime.h"
+
+extern SDL_bool SDL_IsGameLoopTest();
 
 AutoTest* AutoTest::instance = nullptr;
 
@@ -81,4 +84,9 @@ void AutoTest::screenshots()
     {        
         GetImpl()->Screenshots(std::to_string(pyxie::pyxieTime::Instance().GetCPUTime()).c_str());
     }
+}
+
+bool AutoTest::isLoopTest()
+{
+    return (SDL_IsGameLoopTest() == SDL_TRUE);
 }

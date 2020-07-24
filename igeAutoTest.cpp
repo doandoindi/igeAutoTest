@@ -23,6 +23,13 @@ PyObject* autoTest_str(autoTest_obj* self)
 	return _PyUnicode_FromASCII(buf, strlen(buf));
 }
 
+static PyObject* autoTest_IsLoopTest(autoTest_obj* self)
+{
+    PyObject *result;
+    result = Py_BuildValue("O", AutoTest::Instance()->isLoopTest() ? Py_True : Py_False);
+    return result;
+}
+
 static PyObject* autoTest_FinishLoopTest(autoTest_obj* self)
 {
     AutoTest::Instance()->finishLoop();
@@ -52,6 +59,7 @@ static PyObject* autoTest_Screenshots(autoTest_obj* self)
 }
 
 PyMethodDef autoTest_methods[] = {
+    { "isLoopTest", (PyCFunction)autoTest_IsLoopTest, METH_NOARGS, autoTestIsLoopTest_doc },
     { "finishLoopTest", (PyCFunction)autoTest_FinishLoopTest, METH_NOARGS, autoTestFinishLoopTest_doc },
     { "writeResultsTest", (PyCFunction)autoTest_WriteResultsTest, METH_VARARGS, autoTestWriteResultsTest_doc },
     { "screenshots", (PyCFunction)autoTest_Screenshots, METH_NOARGS, autoTestScreenshots_doc },

@@ -1,3 +1,12 @@
+//autoTest is loop test
+PyDoc_STRVAR(autoTestIsLoopTest_doc,
+    "is the loop test\n"\
+    "\n"\
+    "igeAutoTest.isLoopTest()\n"\
+    "\n"\
+    "Returns\n"\
+    "-------\n"\
+    "    result : bool");
 //autoTest finish loop test
 PyDoc_STRVAR(autoTestFinishLoopTest_doc,
     "finish the loop test\n"\
