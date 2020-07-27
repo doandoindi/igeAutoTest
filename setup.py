@@ -56,7 +56,7 @@ sfc_module = Extension('igeAutoTest',
                     define_macros=[('BUILD_EXTENSION', '1')],
                     extra_compile_args=['/std:c++17'])
 
-setup(name='igeAutoTest', version='0.0.1',
+setup(name='igeAutoTest', version='0.0.3',
         description= 'C++ extension auto tesing for 3D and 2D games.',
         author=u'Indigames',
         author_email='dev@indigames.net',
