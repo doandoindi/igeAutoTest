@@ -58,3 +58,13 @@ const char* AutoTestImpl::GetResultPath()
     NSString* resultFile = [resultsDir stringByAppendingString:@"result.json"];
     return ([resultFile UTF8String]);
 }
+
+const char* AutoTestImpl::GetFacebookID()
+{
+    NSString *facebookID = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"FacebookAppID"];
+    if(facebookID != nullptr)
+    {
+        return ([facebookID UTF8String]);
+    }
+    return nullptr;
+}

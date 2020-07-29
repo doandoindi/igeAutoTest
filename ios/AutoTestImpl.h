@@ -10,4 +10,5 @@ public:
     void Screenshots(const char* name);
     const char* GetResultPath();
     void CollectModuleInfo();
+    const char* GetFacebookID();
 };
