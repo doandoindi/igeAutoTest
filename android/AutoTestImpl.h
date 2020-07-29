@@ -1,6 +1,5 @@
 #pragma onces
 
-
 class AutoTestImpl {
 public:
     AutoTestImpl();
@@ -9,5 +8,6 @@ public:
     void FinishLoop();
     void Screenshots(const char* name);
     const char* GetResultPath();
+    int GetFileDescriptor();
     void CollectModuleInfo();
 };
