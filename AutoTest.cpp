@@ -68,6 +68,7 @@ void AutoTest::collectModuleInfo()
     adjustInfo();
     gameAnalyticsInfo();
     applovinInfo();
+    facebookInfo();
 }
 
 void AutoTest::adjustInfo()
@@ -89,7 +90,7 @@ void AutoTest::gameAnalyticsInfo()
 #else
     GAnalytics* ga = GAnalytics::Instance();
     json jGA = ga->dumpInfo();;
-    
+
     result_json["GameAnalytics"] = jGA;
 #endif
 }
@@ -100,10 +101,23 @@ void AutoTest::applovinInfo()
     result_json["Applovin"] = {};
 #else
     AdsApplovin* applovin = AdsApplovin::Instance();
-    json jApplovin = applovin->dumpInfo();;
+    json jApplovin = applovin->dumpInfo();
 
     result_json["Applovin"] = jApplovin;
 #endif
+}
+
+void AutoTest::facebookInfo()
+{
+    if(GetImpl()->GetFacebookID() != nullptr)
+    {
+        result_json["Facebook"]["id"] = GetImpl()->GetFacebookID();        
+    }
+    else
+    {
+        result_json["Facebook"] = nullptr;
+    }
+    
 }
 
 void AutoTest::finishLoop()
@@ -114,11 +128,13 @@ void AutoTest::finishLoop()
         
         writeResults("Result", "Success");
         
+        printf("%s", result_json.dump(4).c_str());
+        
         const char* path = GetImpl()->GetResultPath();
         std::ofstream file(path);
         file << result_json;
         
-        printf("%s", result_json.dump(4).c_str());
+
         GetImpl()->FinishLoop();
     }
 }

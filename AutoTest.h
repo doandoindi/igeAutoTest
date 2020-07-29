@@ -21,6 +21,7 @@ public:
     void adjustInfo();
     void gameAnalyticsInfo();
     void applovinInfo();
+    void facebookInfo();
     bool isLoopTest();
 	
 	AutoTestImpl* GetImpl() { return m_autoTestImpl; }
