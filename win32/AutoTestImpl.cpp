@@ -90,3 +90,8 @@ const char* AutoTestImpl::GetResultPath()
 {
     return "GameLoopResults/result.json";
 }
+
+const char* AutoTestImpl::GetFacebookID()
+{    
+    return nullptr;
+}

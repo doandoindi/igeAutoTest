@@ -62,3 +62,8 @@ const char* AutoTestImpl::GetResultPath()
 
 	return path;
 }
+
+const char* AutoTestImpl::GetFacebookID()
+{    
+    return nullptr;
+}

@@ -10,4 +10,5 @@ public:
     const char* GetResultPath();
     int GetFileDescriptor();
     void CollectModuleInfo();
+    const char* GetFacebookID();
 };
