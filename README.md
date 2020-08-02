@@ -5,7 +5,7 @@ C++ extension Firebase Auto Test Lab for 3D and 2D games.
 ### Before running this tutorial, you have to install igeAutoTest
 	[pip install igeAutoTest]
 
-### Functions
+### Functions - [**DEV**]
 - First, you need to impor the module
 	```
 	import igeAutoTest
@@ -30,38 +30,64 @@ C++ extension Firebase Auto Test Lab for 3D and 2D games.
 	- The default test loop result should be (**result.json**)
 		```json
 		{
-			"Adjust": {
-				"adid": "ff96ad57fa7e09cbf776a768dceca0f7",
-				"debug": true,
-				"event": [],
-				"secret": "(1, 1665077278, 978761167, 1927431060, 1766817079)",
-				"token": "hpqyvx4aumm8"
-			},
-			"Applovin": {
-				"banner": "543b53f89be58d39",
-				"interstitial": "ded4ed1fe2aa54e0",
-				"rewarded": "3602eab376c95aa3"
-			},
-			"GameAnalytics": {
-				"debug": true,
-				"event": {
-				"complete": [
-					"world01"
-				],
-				"fail": [],
-				"start": [
-					"world01",
-					"world02",
-					"world03",
-					"world04"
-				]
-				},
-				"game_key": "5382b405e69fa73d7c0464c768b57a5f",
-				"secret_key": "9951c60e96346307c889484cd76bece4ae833ee2"
-			},
-			"Result": "Success"
-		}
-	```
+            "Adjust": {
+                "adid": "4f05a489cecc11a55b9b3a8f4210c1f1",
+                "debug": true,
+                "event": [],
+                "secret": "(1, 1588245832, 1151454453, 1814556983, 1969935874)",
+                "token": "7m5evag9v7k0"
+            },
+            "Applovin": {
+                "banner": "7f7bd2e768a442b5",
+                "interstitial": "e1eb7ecd4a858332",
+                "rewarded": "042ce899efe8b87e"
+            },
+            "Facebook": {
+                "id": "321633655547110"
+            },
+            "GameAnalytics": {
+                "debug": true,
+                "event": {
+                "complete": [
+                    "world01"
+                ],
+                "fail": [],
+                "start": [
+                    "world01",
+                    "world02",
+                    "world03",
+                    "world04"
+                ]
+                },
+                "game_key": "02e1f6be051f6035a1f2c1479c40a086",
+                "secret_key": "e3dbce0764a99a0ba5de331d1c02b363c938e614"
+            },
+            "Result": "Success"
+        }
+	    ```
+### The checklist [**PLANNER / QA / DEV**]
+- Mandatory
+    - Result = Success
+    - has the screenshot capturing throughout the auto test run
+    - the video
+
+- Adjust
+    - debug = false
+    - has the correct token / secret key
+
+- Applovin
+    - we should have correct the banner / interstitial / rewarded key
+    - show ads when the game has them supported
+
+- Facebook
+    - has the correct Facebook id
+
+- GameAnalytics
+    - debug = false
+    - has start / complete event before send the build to Ketchapp
+
+- Depending on the feature supported, we should have some modules disabled
+
 ### Reference
 - https://firebase.google.com/docs/test-lab
 
