@@ -1,19 +1,6 @@
 #include "AutoTestImpl.h"
 #include "AutoTest.h"
-#include "pyxieFios.h"
-#include "pyxieTexture.h"
-#include "bitmapHelper.h"
-#include "SDL.h"
-
 #include "AutoTestHelper.h"
-
-#define STB_IMAGE_WRITE_IMPLEMENTATION
-#define STB_IMAGE_WRITE_STATIC
-#include <stb_image_write.h>
-#include <jni.h>
-#include <fstream>
-
-using namespace pyxie;
 
 AutoTestImpl::AutoTestImpl()
 {

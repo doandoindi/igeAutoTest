@@ -3,3 +3,6 @@ out/
 build/
 /igeLibs
 /igefirebase.cp37-win32.pyd
+/_ige_build
+/_ige_release
+/conanfile.py

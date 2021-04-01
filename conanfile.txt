@@ -1,0 +1,13 @@
+[requires]
+Python/3.7.6@ige/test
+pyxCore/0.4.91@ige/test
+igeCore/0.4.91@ige/test
+json/3.9.1@ige/test
+taskflow/3.1.0@ige/test
+igeAds/0.0.3@ige/test
+igeAdjust/0.0.5@ige/test
+igeGameAnalytics/0.0.3@ige/test
+stb/1.0.0@ige/test
+
+[generators]
+cmake

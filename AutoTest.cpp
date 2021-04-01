@@ -4,10 +4,9 @@
 
 #if !BUILD_EXTENSION
 #include "Adj.h"
-#include "SDL.h"
 #include "GAnalytics.h"
 #include "AdsApplovin.h"
-extern SDL_bool SDL_IsGameLoopTest();
+extern int SDL_IsGameLoopTest();
 #endif
 
 #if defined _WIN32              //WIN32
@@ -162,6 +161,6 @@ bool AutoTest::isLoopTest()
 #if BUILD_EXTENSION
     return false;
 #else
-    return (SDL_IsGameLoopTest() == SDL_TRUE);
+    return (SDL_IsGameLoopTest() == 1);
 #endif
 }
