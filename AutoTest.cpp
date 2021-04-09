@@ -6,7 +6,7 @@
 #include "Adj.h"
 #include "GAnalytics.h"
 #include "AdsApplovin.h"
-extern int SDL_IsGameLoopTest();
+extern "C" int SDL_IsGameLoopTest();
 #endif
 
 #if defined _WIN32              //WIN32
