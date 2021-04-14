@@ -6,3 +6,5 @@ build/
 /_ige_build
 /_ige_release
 /conanfile.py
+/__pycache__
+/igeAutoTest.egg-info

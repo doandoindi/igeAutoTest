@@ -2,6 +2,7 @@
 setlocal enabledelayedexpansion
 
 set CALL_DIR=%CD%
+set CURR_DRIVE=!CALL_DIR:~0,2!
 
 if "%IGE_BUILDER%"=="" (
     set IGE_BUILDER=%APPDATA%\indigames\igeBuilder
@@ -11,12 +12,17 @@ if not exist "!IGE_BUILDER!\.git" (
     mkdir "!IGE_BUILDER!"
     git clone https://github.com/indigames/igeBuilder !IGE_BUILDER!
 ) else (
+    set IGE_BUILDER_DRIVE=!IGE_BUILDER:~0,2!
+    !IGE_BUILDER_DRIVE!
     cd !IGE_BUILDER!
+
     git fetch --all
     git checkout main
     git pull
-)
 
+    !CURR_DRIVE!
+    cd !CALL_DIR!
+)
 
 if not exist "!IGE_BUILDER!\build-lib.bat" (
     echo ERROR: IGE_BUILDER was not found
