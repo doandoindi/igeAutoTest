@@ -1,11 +1,7 @@
 #include "AutoTestImpl.h"
 #include "AutoTest.h"
 
-#include <direct.h>
-
-#include <glew.h>
-#include <gl/gl.h>
-#include <gl/glu.h>
+#include <OpenGL/gl3.h>
 
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #define STB_IMAGE_WRITE_STATIC
@@ -59,7 +55,6 @@ namespace autotest
 
 AutoTestImpl::AutoTestImpl()
 {
-	_mkdir("GameLoopResults");
 }
 
 AutoTestImpl::~AutoTestImpl()

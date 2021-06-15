@@ -1,8 +1,6 @@
 #include "AutoTestImpl.h"
 #include "AutoTest.h"
 
-#include "SDL.h"
-
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
