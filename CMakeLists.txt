@@ -1,6 +1,4 @@
-cmake_minimum_required(VERSION 3.4.1)
-
-file(TO_CMAKE_PATH $ENV{IGE_LIBS} IGE_LIBS)
+cmake_minimum_required(VERSION 3.15.0)
 
 if (NOT DEFINED APP_STYLE)
     set(APP_STYLE STATIC)
@@ -8,13 +6,22 @@ endif()
 
 if(${APP_STYLE} MATCHES "SHARED")
     set(TARGET_NAME igeAutoTest)
+    if (NOT DEFINED PYTHON_VERSION)
+        set(PYTHON_VERSION 3.7)
+    endif()
 else()
     set(TARGET_NAME igeAutoTest-static)
 endif()
 
 project(${TARGET_NAME})
 
-set (CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
+
+# Modules and install path (required by conan)
+set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/install)
+set(CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR} ${CMAKE_MODULE_PATH})
+set(CMAKE_PREFIX_PATH ${CMAKE_BINARY_DIR} ${CMAKE_PREFIX_PATH})
 
 if(DEFINED ANDROID_PLATFORM)
     set (ANDROID 1)
@@ -38,7 +45,7 @@ elseif(MSVC)
         set(CMAKE_CXX_FLAGS_RELEASE "/MD /O2 /Ob2 /Zc:inline")
         set(CMAKE_CXX_FLAGS_DEBUG "/MD /JMC /ZI /Od")
     endif()
-    add_compile_options(/MP)
+    add_compile_options(/MP /std:c++17)
 elseif(IOS)
     if(CMAKE_BUILD_TYPE STREQUAL "Release")
         add_compile_options(-g0 -Ofast)
@@ -46,20 +53,20 @@ elseif(IOS)
 endif()
 
 if(${APP_STYLE} MATCHES "SHARED")
-    find_package(PythonInterp 3.7 REQUIRED)
-    find_package(PythonLibs 3.7 REQUIRED)
+    find_package (Python3 ${PYTHON_VERSION} EXACT REQUIRED COMPONENTS Development)
 else()
-    set (PYTHON_INCLUDE_DIRS "${IGE_LIBS}/Python/Include")
-    if (MSVC)
-        list(APPEND PYTHON_INCLUDE_DIRS "${IGE_LIBS}/Python/PC")
-    elseif (OSX)
-        list(APPEND PYTHON_INCLUDE_DIRS "${IGE_LIBS}/Python/Mac")
-    elseif (ANDROID)
-        list(APPEND PYTHON_INCLUDE_DIRS "${IGE_LIBS}/Python/Android")
-    elseif (IOS)
-        list(APPEND PYTHON_INCLUDE_DIRS "${IGE_LIBS}/Python/IOS")
-    endif ()
+    find_package(Python REQUIRED)
+    set (Python3_INCLUDE_DIRS ${Python_INCLUDE_DIRS})
+    set (Python3_LIBRARIES ${Python_LIBRARIES})
 endif()
+
+find_package(json REQUIRED)
+find_package(stb REQUIRED)
+find_package(pyxCore REQUIRED)
+find_package(igeCore REQUIRED)
+find_package(igeAds REQUIRED)
+find_package(igeAdjust REQUIRED)
+find_package(igeGameAnalytics REQUIRED)
 
 file(GLOB SRC
     "${CMAKE_CURRENT_SOURCE_DIR}/*.h"
@@ -68,18 +75,15 @@ file(GLOB SRC
 
 set(INCLUDES
     "${CMAKE_CURRENT_SOURCE_DIR}"
-    "${IGE_LIBS}/pyxCore/include/pyxcore"
-    "${IGE_LIBS}/igeCore/include"
-    "${IGE_LIBS}/SDL/include"
-    "${IGE_LIBS}/json/include"
-    "${IGE_LIBS}/json/include/json"
-    "${IGE_LIBS}/cpp-taskflow/include"
-    "${FIREBASE_CPP_SDK_DIR}/include"
-    "${IGE_LIBS}/igeAdjust/include"
-    "${IGE_LIBS}/igeGameAnalytics/include"
-    "${IGE_LIBS}/igeAds/include"
-    "${IGE_LIBS}/stb/include"
-    "${PYTHON_INCLUDE_DIRS}"
+    "${Python3_INCLUDE_DIRS}"
+    "${CONAN_INCLUDE_DIRS}"
+    "${igeCore_INCLUDE_DIRS}"
+    "${pyxCore_INCLUDE_DIRS}/pyxcore"
+    "${json_INCLUDE_DIRS}"
+    "${stb_INCLUDE_DIRS}"
+    "${igeAds_INCLUDE_DIRS}"
+    "${igeAdjust_INCLUDE_DIRS}"
+    "${igeGameAnalytics_INCLUDE_DIRS}"
 )
 
 if(APPLE)
@@ -111,7 +115,7 @@ elseif(MSVC)
     set(INCLUDES 
         ${INCLUDES}
         "win32"
-        "${IGE_LIBS}/pyxCore/include/ThirdParty/GLEW"
+        "${pyxCore_INCLUDE_DIRS}/ThirdParty/GLEW"
     )
     file(GLOB EXTRA_SOURCES
         "${CMAKE_CURRENT_SOURCE_DIR}/win32/*.h"
@@ -121,7 +125,6 @@ elseif(MSVC)
 endif()
 
 add_library(${TARGET_NAME} ${APP_STYLE} ${SRC})
-
 target_include_directories(${TARGET_NAME} PRIVATE ${INCLUDES})
 
 if(${APP_STYLE} MATCHES "SHARED")
@@ -132,13 +135,45 @@ if(${APP_STYLE} MATCHES "SHARED")
             OUTPUT_NAME ${TARGET_NAME}
             LINKER_LANGUAGE C
     )
-    if(WIN32)
+
+    if(MSVC)
         set_target_properties(
             ${TARGET_NAME}
             PROPERTIES
             SUFFIX ".pyd"
         )
     endif()
-    target_link_libraries(${TARGET_NAME} ${PYTHON_LIBRARIES})
+
+    target_compile_definitions(${TARGET_NAME} PUBLIC BUILD_EXTENSION=1)
+
+    target_link_libraries(${TARGET_NAME} 
+        ${Python3_LIBRARIES}
+        opengl32
+        winmm
+        ${pyxCore_LIBRARIES}
+        ${igeCore_LIBRARIES}
+        ${stb_LIBRARIES}
+        ${igeAds_LIBRARIES}
+        ${igeAdjust_LIBRARIES}
+        ${igeGameAnalytics_LIBRARIES}
+)
 endif()
+
+# Install Targets
+install(TARGETS
+    ${TARGET_NAME}
+    RUNTIME DESTINATION bin
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
+    PUBLIC_HEADER DESTINATION include
+)
+
+file(GLOB_RECURSE PUBLIC_INCLUDE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/*.h*")
+foreach(HEADER ${PUBLIC_INCLUDE_FILES})
+    file(RELATIVE_PATH HEADER_RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}/" "${HEADER}")
+    get_filename_component(DIR ${HEADER_RELATIVE} DIRECTORY)
+    install(FILES ${HEADER} DESTINATION include/${DIR})
+endforeach()
+
+
 
