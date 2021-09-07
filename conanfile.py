@@ -20,14 +20,13 @@ class IgeConan(ConanFile):
     revision_mode="scm"
 
     def requirements(self):
-        self.requires("Python/3.9.1@ige/test")
-        self.requires("json/3.9.1@ige/test")
-        self.requires("stb/1.0.0@ige/test")
-        self.requires("pyxCore/0.4.91@ige/test")
-        self.requires("igeCore/0.4.91@ige/test")
-        self.requires("igeAds/0.0.3@ige/test")
-        self.requires("igeAdjust/0.0.5@ige/test")
-        self.requires("igeGameAnalytics/0.0.3@ige/test")
+        self.requires("Python/[>=3.9.1]@ige/test")
+        self.requires("json/[>=3.9.1]@ige/test")
+        self.requires("stb/[>=1.0.0]@ige/test")
+        self.requires("igeCore/[>=0.5.53]@ige/test")
+        self.requires("igeAds/[>=0.0.4]@ige/test")
+        self.requires("igeAdjust/[>=0.0.5]@ige/test")
+        self.requires("igeGameAnalytics/[>=0.0.3]@ige/test")
 
     def build(self):
         self._generateCMakeProject()
